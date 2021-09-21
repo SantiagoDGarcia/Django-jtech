@@ -1,0 +1,182 @@
+{% extends "main.html" %}
+
+{% block title %}
+      Dispositivos | {{ block.super }}
+{% endblock %}
+{% load static %}
+
+{% block content %}
+<div id="inicio">
+      <h2>Lista de dispositivos portátiles</h2>
+      <div id="monederos">
+            Dinero en 
+            {% for i in monederos %} 
+                  <a href="{% url 'monedero' i.id %}">{{i.nombre}}: <p>${{i.obtener_dinero_caja}} </p></a> 
+            {% endfor %}
+      </div>
+      <table id="tabla_datos" class="row-border hover" style="width:100%">
+            <thead class="">
+            <tr>
+                  <th>Dispositivo</th>
+                  <th>Fecha venta</th>
+                  <th>IMEI/Serial</th>
+                  <th>Modalidad</th>
+                  <th>Llegada</th>
+                  <th>Proveedor</th>
+                  <th>Comprado</th>
+                  <th>Vendido</th>
+                  <th>Ganancia</th>
+                  <th></th>
+                  <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                  {% include 'tables/table-dispositivos.html' %}  
+            </tbody>
+            <tfoot style="display: none;">
+                  <tr>
+                        <th>Dispositivo</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Proveedor</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                  </tr>
+            </tfoot>
+</table>
+<div id="resultados">
+      <div id="resultados-crear">
+            <img src="{% static 'img/mas.svg' %}" style="width: 20px;  vertical-align: top;"> 
+            <a style="font-weight: bold;" href="{% url 'crear_dispositivo' %}">Dipositivo</a>
+      </div>
+      <div id="resultados-calculos">
+            Compras: <p id="compras"></p>
+            Ventas: <p id="ventas"></p>
+            Ganancias: <p id="ganancias"></p>
+      </div>
+</div>
+<script type="text/javascript">
+      $(document).ready( function () {
+            $('#tabla_datos thead th').each( function () {
+                  var title = $('#tabla_datos tfoot th').eq( $(this).index() ).text();
+                  if(title!=""){
+                        $(this).html( '<input id="bsqda" type="text" placeholder='+title+' />' );
+                  }
+            } );
+            if (screen.width < 450) {
+                  $('#tabla_datos').DataTable({
+                        "columnDefs": [
+                              { "orderable": false, "targets": [0, 2, 6, 7, 8, 9, 10] },
+                              { "type": "date", "targets": 1 },
+                              {  "targets": [ 2, 3, 4, 5, 6,7,8, 10], "visible": false },
+                              {  "targets": [6,7,8,9 ], "searchable": false },
+                        ],
+                        "language": {
+                              "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                        },
+                        "order": [[ 1, "desc" ], ],
+                        "lengthMenu": [[-1,], ["Todos"]],
+                        'dom': 'Pfrtip',
+                        "scrollY":  "60vh",
+                        "scrollCollapse": true,
+                        "paging": false,
+                  });
+            } else {
+                  if (screen.width < 700) {
+                        $('#tabla_datos').DataTable({
+                              "columnDefs": [
+                                    { "orderable": false, "targets": [0, 2, 6, 7, 8, 9, 10] },
+                                    { "type": "date", "targets": 1 },
+                                    {  "targets": [ 2, 3,5,4, 10 ], "visible": false },
+                                    {  "targets": [6,7,8,9 ], "searchable": false },
+                              ],
+                              "language": {
+                                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                              },
+                              "order": [[ 1, "desc" ], ],
+                              "lengthMenu": [[-1,], ["Todos"]],
+                              'dom': 'Pfrtip',
+                              "scrollY":  "65vh",
+                              "scrollCollapse": true,
+                              "paging": false,
+                        });
+                  } else {
+                        if (screen.width < 750 || screen.width < 840) {
+                              $('#tabla_datos').DataTable({
+                                    "columnDefs": [
+                                          { "orderable": false, "targets": [0, 2, 6, 7, 8, 9, 10] },
+                                          { "type": "date", "targets": 1 },
+                                          {  "targets": [ 3, 4, 5,10 ], "visible": false },
+                                          {  "targets": [6,7,8,9 ], "searchable": false },
+                                    ],
+                                    "language": {
+                                          "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                                    },
+                                    "order": [[ 1, "desc" ], ],
+                                    "lengthMenu": [[-1,], ["Todos"]],
+                                    'dom': 'Pfrtip',
+                                    "scrollY":  "65vh",
+                                    "scrollCollapse": true,
+                                    "paging": false,
+                              });
+                        } else {
+                              $('#tabla_datos').DataTable({
+                                    "columnDefs": [
+                                          { "orderable": false, "targets": [0, 2, 6, 7, 8, 9, 10] },
+                                          { "type": "date", "targets": 1 },
+                                          {  "targets": [ 3,10 ], "visible": false },
+                                          {  "targets": [6,7,8,9 ], "searchable": false },
+                                    ],
+                                    "language": {
+                                          "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
+                                    },
+                                    "order": [[ 1, "desc" ], ],
+                                    "lengthMenu": [[-1,], ["Todos"]],
+                                    'dom': 'Pfrtip',
+                                    "scrollY":  "65vh",
+                                    "scrollCollapse": true,
+                                    "paging": false,
+                              });
+                        }
+                        
+                  }
+            }
+
+            var table = $('#tabla_datos').DataTable();
+            table.on('draw', function () {
+                  var total = 0; var total2= 0; var total3 = 0;
+                  var datas = document.querySelectorAll(".classcompras");
+                  var datas2 = document.querySelectorAll(".classventas");
+                  var datas3 = document.querySelectorAll(".classganancias");
+                  for (var i = 0; i <datas.length; i++ ){
+                        total += parseFloat(datas[i].firstChild.data.replace(",", "."));
+                  }
+                  for (var i = 0; i <datas2.length; i++ ){
+                        total2 += parseFloat(datas2[i].firstChild.data.replace(",", "."));
+                  }
+                  for (var i = 0; i <datas3.length; i++ ){
+                        total3 += parseFloat(datas3[i].firstChild.data.replace(",", "."));
+                  }
+                  $("#compras").html( "$"+total.toFixed(2) );
+                  $("#ventas").html( "$"+total2.toFixed(2) );
+                  $("#ganancias").html( "$"+total3.toFixed(2) );
+            });
+            table.columns().eq( 0 ).each( function ( colIdx ) {
+                  if( !table.settings()[0].aoColumns[colIdx].bSearchable ){
+                        table.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
+                  }
+                  $( 'input', table.column( colIdx ).header() ).on( 'keyup change', function () {
+                        table
+                              .column( colIdx )
+                              .search( this.value )
+                              .draw();
+                  });
+            });
+      });
+</script>
+</div>
+{% endblock %}

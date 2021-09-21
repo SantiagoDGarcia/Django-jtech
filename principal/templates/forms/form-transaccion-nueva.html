@@ -1,0 +1,54 @@
+{% extends "main.html" %}
+
+{% block title %}
+      {{titulo}}
+{% endblock %}
+{% block content %}
+<div id="inicio">
+      <h2 style="margin-bottom: 2em;">{{titulo}} independiente</h2>
+
+      <form action="" method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="formLocation">
+                  <div class="contenidoForm non">
+                        {{ form.monedero.errors }}
+                        {% if valor == false %}
+                              <label for="{{ form.monedero.id_for_label }}">Monedero</label>
+                        {% endif %}
+                        {{ form.monedero }}
+                  </div>                  
+                  <div class="contenidoForm non">
+                        {{ form.fecha.errors }}
+                        {% if valor == false %}
+                              <label for="{{ form.fecha.id_for_label }}">fecha</label>
+                        {% endif %}
+                        {{ form.fecha }}
+                  </div>
+                  <div class="contenidoForm non">
+                        {{ form.hora.errors }}
+                        {% if valor == false %}
+                              <label for="{{ form.hora.id_for_label }}">hora</label>
+                        {% endif %}
+                        {{ form.hora }}
+                  </div>
+                  <div class="contenidoForm">
+                        {{ form.tipo.errors }}
+                        <label for="{{ form.tipo.id_for_label }}">Tipo de transacción</label>
+                        {{ form.tipo }}
+                  </div>
+                  <div class="contenidoForm">
+                        {{ form.dinero.errors }}
+                        <label for="{{ form.dinero.id_for_label }}">Valor</label>
+                        {{ form.dinero }}
+                  </div>
+                  <div class="contenidoForm">
+                        {{ form.motivo.errors }}
+                        <label for="{{ form.motivo.id_for_label }}">Motivo</label>
+                        {{ form.motivo }}
+                  </div>
+                  <button type='submit'>Confirmar</button>
+            </div>
+      </form>
+</div>
+{% endblock %}

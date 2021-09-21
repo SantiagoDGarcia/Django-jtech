@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      {% load static %}
+      <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+      <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+      <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+      <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+      <script type="text/javascript" src="{% static 'js/functions.js' %}"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+      <title>{% block title %} JTECH {% endblock %}</title>
+</head>
+<body>
+      <div class="">
+            {% if messages %}
+                {% for message in messages %}
+                <div class="conten">
+                  <div id="notificacion" class="notEmail">
+                      <div class="mensaje_not">
+                          {{message}}
+                      </div>
+                      <img src="{% static 'img/visto2.svg' %}">
+                  </div>
+                  <script>
+                        document.getElementById("notificacion").style.display= "block";
+                        $("#notificacion").delay(5500).fadeOut(500,"swing");
+                  </script>
+              </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+          
+          <header class = "cabecera">
+            <nav class="navInicio">
+                <a href="{% url 'index' %}" class="" > J TECH </a>
+                
+              <input type="checkbox" id="check">
+              <label for="check" class="checkbtn">
+                <i class="fas fa-bars"></i>
+              </label>
+              <ul style="padding-left: 0px;" >
+                <div class="dropdown2">
+                  <a class="dropbtn2 " onclick="myFunction2()">Inventario <img src="{% static 'img/abajo.svg' %}" style="width: 8px; margin-top: 6%; "></a>
+                  <div class="dropdown-content2" id="myDropdown2">
+                      <a href="{% url 'telefonos' %}">Teléfonos</a>
+                      <a href="{% url 'dispositivos' %}">Dispositivos</a>
+                  </div>
+                </div>
+                <div class="dropdown anav">
+                  <a class="dropbtn " onclick="myFunction()">Finanzas <img src="{% static 'img/abajo.svg' %}" style="width: 8px; margin-top: 6%;"></a>
+                  <div class="dropdown-content" id="myDropdown">
+                    {% for i in monederos %} 
+                      <a href="{% url 'monedero' i.id %}">{{i.nombre}}</a>
+                    {% endfor %}
+                  </div>
+                </div>
+                {% if user.is_authenticated %}
+                  <div class="dropdown3 anav">
+                    <a class="dropbtn3 " onclick="myFunction3()"><img src="{% static 'img/usuario.svg' %}" style="width: 16px; margin-top: 2%; ">{{user.username}} </a>
+                    <div class="dropdown-content3" id="myDropdown3">
+                      <a href="{% url 'salida' %}">Cerrar sesión</a>
+                    </div>
+                  </div>
+                {% endif %}
+              </ul>
+                <script>
+                  function myFunction() {
+                    document.getElementById("myDropdown").classList.toggle("show");
+                  }
+                  function myFunction2() {
+                    document.getElementById("myDropdown2").classList.toggle("show2");
+                  }
+                  function myFunction3() {
+                    document.getElementById("myDropdown3").classList.toggle("show3");
+                  }
+                  window.onclick = function(e) {
+                    if (!e.target.matches('.dropbtn')) {
+                    var myDropdown = document.getElementById("myDropdown");
+                      if (myDropdown.classList.contains('show')) {
+                        myDropdown.classList.remove('show');
+                      }
+                    }
+                    if (!e.target.matches('.dropbtn2')) {
+                    var myDropdown2 = document.getElementById("myDropdown2");
+                      if (myDropdown2.classList.contains('show2')) {
+                        myDropdown2.classList.remove('show2');
+                      }
+                    }
+                    if (!e.target.matches('.dropbtn3')) {
+                    var myDropdown3 = document.getElementById("myDropdown3");
+                      if (myDropdown3.classList.contains('show3')) {
+                        myDropdown3.classList.remove('show3');
+                      }
+                    }
+                    /*
+                    if (!e.target.matches('check')) {
+                      if ($('#check').is(':checked')) {
+                        console.log("Checc");
+                        $('#check').prop('checked', true); // Doble verificaion, se desactivael inputt
+                      } 
+                    }
+                    */
+                  }
+                </script>
+            </nav>   
+        </header>
+      <div id="contenido">
+      <div class="obscurecer"></div>
+            {% block content %} {% endblock %}
+      </div>
+</body>
+<footer>
+      
+
+      
+
+      
+
+
+      <div class="pie">
+        <div class="subpie1">
+            <a href="#" class="alogo2" > <img src="{% static 'img/jtech.jpg' %}" ></a>
+            <p>Distribuidor autorizado de tecnología al por mayor en el Ecuador, ejerciendo desde el año 2016</p>
+        </div>
+        <div class="subpie">
+            <ul class="listapie"> <p>Redes sociales</p>
+                <li> <a href="https://www.facebook.com/jtechtecnologias/"><img src="{% static 'img/facebook.svg' %}" style="width: 20px;">Facebook</a></li>
+                <li> <a href="https://www.instagram.com/jtechtecnologias/?hl=es-la"> <img src="{% static 'img/instagram.svg' %}" style="width: 20px;">Instagram</a></li>
+                <li> <a href="http://wa.me/593980003170"><img src="{% static 'img/whatsapp.svg' %}" style="width: 20px;">Whatsapp</a></li>
+            </ul>
+        </div>
+        <div class="subpie2">
+            <ul class="listapie"> 
+                <p>Información</p>
+                <li> <img src="{% static 'img/ubicacion.svg' %}" style="margin-top: 0;"> <a href="https://g.page/j-tech-tecnologias?share">Loja, Sozoranga e/n Eduardo Kigman y Bernardo Valdivieso</a> </li>
+                <li> <img src="{% static 'img/telefono.svg' %}" style="margin-top: 0;"><a >+593 980003170</a></li>
+            </ul>
+        </div>
+    </div>
+    <hr>
+    <div class="pie2">
+        <div class="subpie22">
+            <a href=" mailto: santiagodaivid@gmail.com">Desarollado por santiagodaivid@gmail.com</a>
+        </div>
+        <div class="subpie22">
+            <p>Loja - Ecuador</p>
+        </div>
+    </div>
+
+</footer>
+</html>

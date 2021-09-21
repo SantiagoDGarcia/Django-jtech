@@ -1,0 +1,141 @@
+{% extends "main.html" %}
+
+{% block title %}
+      {{titulo}}
+{% endblock %}
+{% block content %}
+<div id="inicio">
+      <h2 style="margin-bottom: 0.5em;">{{titulo}} {{telefono.modelo.nombre}}</h2>
+      <div id="tabla_transaccion">
+            <table>
+                  <tr>
+                        <td>Precio de venta:</td>
+                        <td style="color: green;">${{telefono.monto_venta}}</td>
+                  </tr>           
+                        <td>Costo original</td>
+                        <td style="color: brown;">-${{telefono.monto_compra}}</td>
+                  </tr>
+                  {% if telefono.sefue_cargador_rapido %}
+                        {% if telefono.llego_cargador_rapido %}
+                              </tr>           
+                                    <td>Cargador</td>
+                                    <td style="color: brown;">-$0,0</td>
+                              </tr>
+                        {% else %}
+                              </tr>           
+                                    <td>Cargador</td>
+                                    <td style="color: brown;">-${{telefono.precio_cargador_rapido}}</td>
+                              </tr>
+                        {% endif %}
+                  {% else %}
+                        {% if telefono.sefue_cargador %}
+                              {% if telefono.llego_cargador %}
+                                    </tr>           
+                                          <td>Cargador</td>
+                                          <td style="color: brown;">-$0,0</td>
+                                    </tr>
+                              {% else %}
+                                    </tr>           
+                                          <td>Cargador</td>
+                                          <td style="color: brown;">-${{telefono.precio_cargador}}</td>
+                                    </tr>
+                              {% endif %}
+                        {% endif %}
+                  {% endif %}
+      
+                  {% if telefono.sefue_audifonos %}
+                        {% if telefono.llego_audifonos %}
+                              </tr>           
+                                    <td>Audífonos</td>
+                                    <td style="color: brown;">-$0,0</td>
+                              </tr>
+                        {% else %}
+                              </tr>           
+                                    <td>Audífonos</td>
+                                    <td style="color: brown;">-${{telefono.precio_audifonos}}</td>
+                              </tr>
+                        {% endif %}
+                  {% endif %}
+                  </tr>           
+                        <td>Ganancia</td>
+                        <td>${{telefono.ganancia}}</td>
+                  </tr>
+            </table>
+      </div>
+      <hr>
+      <div id="tabla_historial">
+            <table>
+                  <thead>
+                        <tr colspan =2> <b>Historial transacciones</b> </tr>
+                  </thead>
+                  {% if telefono.transacciones.all|length != 0 %}
+                        {% for x in telefono.transacciones.all %}    
+                              <tr>
+                                    <td>{{x.monedero}}  </td>
+                                    <td>${{x.dinero}}</td>
+                              </tr>
+                        {% endfor %}
+                  {% else %}
+                        <tr>
+                              <td>Ninguna </td>
+                              <td>transacción</td>
+                        </tr>
+                  {% endif %}
+            </table>
+      </div>
+      <hr>
+      <h5>Saldo disponible: ${{telefono.dinero_disponible_transaccion}}</h5>
+
+      <form action="" method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div id="tabla_transaccion">
+                  <div class="contenidoForm">
+                        {{ form.monedero.errors }}
+                        {% if valor2 == false %}
+                              <label for="{{ form.monedero.id_for_label }}">Monedero</label>
+                        {% endif %}
+                        {{ form.monedero }}
+                  </div>
+                  <div class="contenidoForm non">
+                        {{ form.telefono.errors }}
+                        {% if valor3 == false %}
+                              <label for="{{ form.telefono.id_for_label }}">telefono</label>
+                        {% endif %}
+                        {{ form.telefono }}
+                  </div>
+                  
+                  <div class="contenidoForm non">
+                        {{ form.fecha.errors }}
+                        {% if valor == false %}
+                              <label for="{{ form.fecha.id_for_label }}">fecha</label>
+                        {% endif %}
+                        {{ form.fecha }}
+                  </div>
+                  <div class="contenidoForm non">
+                        {{ form.hora.errors }}
+                        {% if valor == false %}
+                              <label for="{{ form.hora.id_for_label }}">hora</label>
+                        {% endif %}
+                        {{ form.hora }}
+                  </div>
+                  <div class="contenidoForm">
+                        {{ form.tipo.errors }}
+                        <label for="{{ form.tipo.id_for_label }}">Tipo de transacción</label>
+                        {{ form.tipo }}
+                  </div>
+                  <div class="contenidoForm">
+                        {{ form.dinero.errors }}
+                        <label for="{{ form.dinero.id_for_label }}">Valor</label>
+                        {{ form.dinero }}
+                  </div>
+                  <div class="contenidoForm">
+                        {{ form.motivo.errors }}
+                        <label for="{{ form.motivo.id_for_label }}">Motivo</label>
+                        {{ form.motivo }}
+                  </div>
+                  <button type='submit'>Confirmar</button>
+            </div>
+      </form>
+</div>
+{% endblock %}

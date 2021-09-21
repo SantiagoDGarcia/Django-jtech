@@ -1,0 +1,250 @@
+{% load static %}
+{% for x in dispositivos %}      
+<tr>
+    <td>
+            {% if x.vendido %}
+                <a class="ver vendidos" target={{x.id|add:3500000}}>
+                        <div style="text-align: left;">
+                            {% if x.modalidad == "Open box"%}
+                                    <img src="{% static 'img/openbox.svg' %}" style="width: 17px; margin-left: 1%;"> 
+                            {% else %}
+                                    <img src="{% static 'img/sellado.svg' %}" style="width: 17px; margin-left: 1%;"> 
+                            {% endif %}
+                            <p>{{x.modelo.nombre}} - {{x.capacidad}} 
+                                {%if x.color %}
+                                        - {{x.color}}
+                                {% endif %}
+                        </p> 
+                        </div> 
+                        <div class="infoventa">
+                            <div style="border-right: none;  width: 100%;">
+                                    {{ x.descripcion }}
+                                    {% if x.sefue_cargador or x.sefue_audifonos %}
+                                        {% if x.sefue_cargador %}
+                                                <img src="{% static 'img/adaptador.svg' %}" style="width: 13px; margin-top: 1%;">
+                                        {% endif %}
+                                        {% if x.sefue_audifonos %}
+                                                <img src="{% static 'img/audifonos.svg' %}" style="width: 13px; margin-top: 1%;"> 
+                                        {% endif %}
+                                    {% endif %}
+
+                                    {% if x.entrega == "Entregado" %}
+                                        <img src="{% static 'img/entrega.svg' %}" style="width: 14px; margin-top: 1%;">
+                                    {% else %}
+                                        {% if x.entrega == "Envio servientrega" %}
+                                                <img src="{% static 'img/enviarservi.svg' %}" style="width: 16px;">
+                                        {% else  %}
+                                                <img src="{% static 'img/enviarcoop.svg' %}" style="width: 16px;">
+                                        {% endif %}
+                                    {% endif %}
+                            </div>                                              
+                        </div>
+                </a>
+            {% else %}
+                <a class="ver novendidos" target={{x.id|add:3500000}}>
+                        <div style="text-align: left;">
+                            {% if x.modalidad == "Open box"%}
+                                    <img src="{% static 'img/openbox.svg' %}" style="width: 17px; margin-left: 1%; "> 
+                            {% else %}
+                                    <img src="{% static 'img/sellado.svg' %}" style="width: 17px; margin-left: 1%;"> 
+                            {% endif %}
+                            <p>{{x.modelo.nombre}} - {{x.capacidad}} 
+                                {%if x.color %}
+                                        - {{x.color}}
+                                {% endif %}
+                           </p> 
+                        </div> 
+                        <div class="infoventa">
+                            <div style="border-right: none;  width: 100%;">
+                                    {{ x.descripcion }}
+                            </div>                                     
+                        </div>
+                </a>
+            {% endif %}
+    </td>
+    <td>
+            {% if x.fecha_venta %}
+                {{x.fecha_venta|date:'Y-m-d'}} 
+            {% else %}
+                -
+            {% endif %}
+    </td>
+    <td>
+            {% if x.imei%}
+                {{x.imei}}
+            {% else %}
+                {{x.serial}}
+            {% endif %}
+    </td>
+    <td>{{x.modalidad}}</td>
+    <td>{{x.fecha_compra|date:'Y-m-d'}}</td>
+    <td>{{x.proveedor}}</td>
+    {%if x.monto_compra%}
+        <td class="classcompras">{{x.monto_compra}}</td>
+    {% else %}
+        <td>-</td>
+    {% endif %}
+    {%if x.monto_venta%}
+        <td class="classventas">{{x.monto_venta}}</td>
+    {% else %}
+        <td class="">-</td>
+    {% endif %}
+    <td class="classganancias">{{x.ganancia}}</td>
+    <td>
+            <a href="{% url 'editar_dispositivo' x.id %}"><img src="{% static 'img/editar.svg' %}" style="width: 20px;"></a>
+            {% if x.vendido %}
+                <a href="{% url 'monedero_dispositivo' x.id %}"><img src="{% static 'img/cartera.svg' %}" style="width: 20px;"> </a>
+            {% endif %}
+            
+            <a class="eliminar" target={{x.id|add:3500000}}> <img src="{% static 'img/eliminar.svg' %}" style="width: 20px;  cursor: pointer;"> </a>
+    </td>
+    <td>
+        {% if x.vendido == True %}
+                Vendido
+        {% else  %}
+                Disponible
+        {% endif %}  
+    </td>
+</tr>
+<div class="cuadro-ver" id="fondo-ver{{x.id|add:3500000}}" target={{x.id|add:35000000}} style="display: none;">
+        <a id="cancelar"><img src="{% static 'img/cancelar.svg' %}"></a> <br> 
+        <div class="detalle-central" style="text-align: center;">
+                <p>
+                        {{x.modelo.nombre}}  
+                        {{x.capacidad}} <br>
+                        {{x.modalidad}} 
+                        {%if x.color %}
+                                {{x.color}}
+                        {% endif %}
+                        <br>
+                        {% if x.imei %}
+                                {{x.imei}}
+                        {% endif %}
+                        <br>
+                        {% if x.serial %}
+                                {{x.serial}}
+                        {% endif %}
+                </p>
+        </div> 
+        <div class="detalle-llego">
+                <img src="{% static 'img/flecha-llego.svg' %}" >
+                <p>
+                        {{x.fecha_compra}} <br>
+                        {{x.proveedor}} <br>
+                        {%if x.monto_compra%}
+                                ${{x.monto_compra}}
+                        {% endif %}
+                        <br>
+                        {% if x.llego_cargador %}
+                                Cargador normal <img src="{% static 'img/adaptador.svg' %}" style="width: 13px; margin-top: 2% ;"><br>
+                        {% endif %}
+                        {% if x.llego_cargador_rapido %}
+                                Cargador rápido <img src="{% static 'img/nuevo.svg' %}" style="width: 16px; margin-top: 2%;"><br>
+                        {% endif %}
+                        {% if x.llego_audifonos %}
+                                Audifonos<img src="{% static 'img/audifonos.svg' %}" style="width: 13px; margin-top: 2%;"><br>
+                        {% endif %}
+                </p>
+        </div>  
+        <div class="detalle-sefue">
+                <img src="{% static 'img/flecha-sefue.svg' %}" >
+                {% if x.vendido %}
+                        <p >{{x.fecha_venta}} <br>
+                                {{x.cliente}} <br>
+                                ${{x.monto_venta}} <br>
+                                {% if x.sefue_cargador %}
+                                        Cargador normal <img src="{% static 'img/adaptador.svg' %}" style="width: 13px; margin-top: 2%; "><br>
+                                {% endif %}
+                                {% if x.sefue_audifonos %}
+                                        Audifonos <img src="{% static 'img/audifonos.svg' %}" style="width: 13px; margin-top: 2%;"><br>
+                                {% endif %}
+
+                                {% if x.entrega == "Entregado" %}
+                                        Local<img src="{% static 'img/entrega.svg' %}" style="width: 14px; margin-top: 1%;"><br>
+                                {% else %}
+                                        {% if x.entrega == "Envio servientrega" %}
+                                                Servientrega  <img src="{% static 'img/enviarservi.svg' %}" style="width: 16px;"><br>
+                                        {% else  %}
+                                                Cooperativa<img src="{% static 'img/enviarcoop.svg' %}" style="width: 16px;"><br>
+                                        {% endif %}
+                                {% endif %}
+                        </p>
+                {% else %}
+                        <p>El producto sigue disponible </p>
+                {% endif %}                        
+        </div>  
+    </div>
+<div class="cuadro-eliminar" id="fondo-eliminar{{x.id|add:3500000}}" target={{x.id|add:3500000}} style="display: none;">
+        <a id="cancelar"><img src="{% static 'img/cancelar.svg' %}"></a> <br> 
+        <p style="text-align: center; font-weight: bold;">¿Deseas eliminar este dispositivo?</p> 
+        <div class="detalle-central">
+                <p>
+                        {{x.modelo.nombre}}  
+                        {{x.capacidad}}<br>
+                        {{x.modalidad}} 
+                        {%if x.color %}
+                                {{x.color}}
+                        {% endif %}
+                        <br>
+                        {% if x.imei %}
+                                {{x.imei}}
+                        {% endif %}
+                        <br>
+                        {% if x.serial %}
+                                {{x.serial}}
+                        {% endif %}
+                        
+                </p>
+        </div> 
+        <div class="detalle-llego">
+                <img src="{% static 'img/flecha-llego.svg' %}" >
+                <p>
+                        {{x.fecha_compra}} <br>
+                        {{x.proveedor}} <br>
+                        {%if x.monto_compra%}
+                                ${{x.monto_compra}}
+                        {% endif %}
+                        <br>
+                        {% if x.llego_cargador %}
+                                Cargador normal <img src="{% static 'img/adaptador.svg' %}" style="width: 13px; margin-top: 2% ;"><br>
+                        {% endif %}
+                        {% if x.llego_cargador_rapido %}
+                                Cargador rápido <img src="{% static 'img/nuevo.svg' %}" style="width: 16px; margin-top: 2%;"><br>
+                        {% endif %}
+                        {% if x.llego_audifonos %}
+                                Audifonos<img src="{% static 'img/audifonos.svg' %}" style="width: 13px; margin-top: 2%;"><br>
+                        {% endif %}
+                </p>
+        </div>  
+        <div class="detalle-sefue">
+                <img src="{% static 'img/flecha-sefue.svg' %}" >
+                {% if x.vendido %}
+                        <p >{{x.fecha_venta}} <br>
+                                {{x.cliente}} <br>
+                                ${{x.monto_venta}} <br>
+                                {% if x.sefue_cargador %}
+                                        Cargador normal <img src="{% static 'img/adaptador.svg' %}" style="width: 13px; margin-top: 2%; "><br>
+                                {% endif %}
+                                {% if x.sefue_audifonos %}
+                                        Audifonos <img src="{% static 'img/audifonos.svg' %}" style="width: 13px; margin-top: 2%;"><br>
+                                {% endif %}
+
+                                {% if x.entrega == "Entregado" %}
+                                        Local<img src="{% static 'img/entrega.svg' %}" style="width: 14px; margin-top: 1%;"><br>
+                                {% else %}
+                                        {% if x.entrega == "Envio servientrega" %}
+                                                Servientrega  <img src="{% static 'img/enviarservi.svg' %}" style="width: 16px;"><br>
+                                        {% else  %}
+                                                Cooperativa<img src="{% static 'img/enviarcoop.svg' %}" style="width: 16px;"><br>
+                                        {% endif %}
+                                {% endif %}
+                        </p>
+                {% else %}
+                        <p>El producto sigue disponible </p>
+                {% endif %}                        
+        </div>
+        <div class="detalle-central d2d">
+                <a href="{% url 'eliminar_dispositivo' x.id %}" id="bttn-eliminar">Confirmar</a>
+        </div>
+    </div>
+{% endfor %}

@@ -1,0 +1,27 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}Iniciar sesión{% endblock %}
+
+{% block content %}
+
+<div id="inicio" class="log">
+  <img src="{% static 'img/jtech.jpg' %}" style="width: 20vh; border-radius: 100%;"> 
+  <h4>Debes iniciar sesion para poder acceder a esta función</h4>
+  <form class="contenidoLog" method="post">
+    {% csrf_token %}
+    {{ form.username.errors }}
+    <label style="width: 100%;" for="{{ form.username.id_for_label }}">Usuario</label>
+    <div class="">
+          {{ form.username }}
+    </div>
+    {{ form.password.errors }}
+    <label for="{{ form.password.id_for_label }}">Contraseña</label>
+    <div class="">
+      {{ form.password }}
+    </div>
+    <br>
+  <button type="submit">Ingresar</button>
+  </form>
+</div>
+{% endblock %}

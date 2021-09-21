@@ -1,0 +1,74 @@
+{% extends "main.html" %}
+
+{% block title %}
+      {{titulo}}
+{% endblock %}
+{% block content %}
+<div id="inicio">
+      <h2>{{titulo}}</h2>
+      <form action="" method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="formLocation">
+                  <div class="contenidoForm">
+                        {{ form.marca.errors }}
+                        <label for="{{ form.marca.id_for_label }}">Marca</label>
+                        {{ form.marca }}
+                  </div>
+                  <div class="contenidoForm">
+                        {{ form.tipo.errors }}
+                        <label for="{{ form.tipo.id_for_label }}">Tipo</label>
+                        {{ form.tipo }}
+                  </div>
+                  <div class="contenidoForm">
+                        {{ form.conexion.errors }}
+                        <label for="{{ form.conexion.id_for_label }}">Tipo de conexión</label>
+                        {{ form.conexion }}
+                  </div>
+                  
+                  <div class="contenidoForm">
+                        {{ form.descripcion.errors }}
+                        <label for="{{ form.descripcion.id_for_label }}">Descripción</label>
+                        {{ form.descripcion }}
+                  </div>
+                  <div class="contenidoForm">
+                        {{ form.monto_compra.errors }}
+                        <label for="{{ form.monto_compra.id_for_label }}">Monto de compra</label>
+                        {{ form.monto_compra }}
+                  </div>
+            </div>
+            <div class="formLocation">
+                  <div class="">
+                        <div class="contenidoForm">
+                              {{ form.fecha_venta.errors }}
+                              <label for="{{ form.fecha_venta.id_for_label }}">Fecha de venta</label>
+                              {{ form.fecha_venta }}
+                        </div>
+                        <div class="contenidoForm">
+                              {{ form.cliente.errors }}
+                              <label for="{{ form.cliente.id_for_label }}">Cliente</label>
+                              {{ form.cliente }}
+                        </div>
+                        <div class="contenidoForm">
+                              {{ form.nro_cliente.errors }}
+                              <label for="{{ form.nro_cliente.id_for_label }}">Número teléfono</label>
+                              {{ form.nro_cliente }}
+                        </div>
+                        <div class="contenidoForm">
+                              {{ form.monto_venta.errors }}
+                              <label for="{{ form.monto_venta.id_for_label }}">Precio de venta</label>
+                              {{ form.monto_venta }}
+                        </div>
+                        <div class="contenidoForm">
+                              {{ form.entrega.errors }}
+                              <label for="{{ form.entrega.id_for_label }}">Tipo de venta</label>
+                              {{ form.entrega }}
+                        </div>
+                  </div>
+            </div>
+            <div style="width: 100%; text-align: center;">
+                  <button type='submit'>Confirmar</button>
+            </div>
+      </form>
+</div>
+{% endblock %}

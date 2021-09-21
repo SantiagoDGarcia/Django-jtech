@@ -1,0 +1,7 @@
+Django==3.1.7
+gunicorn
+dj-static==0.0.6
+django-mathfilters
+django-dbbackup
+-e git+https://github.com/mjs7231/django-dbbackup.git#egg=django-dbbackup
+django_cron

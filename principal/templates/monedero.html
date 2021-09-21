@@ -1,0 +1,134 @@
+{% extends "main.html" %}
+
+{% block title %}
+      {{monedero.nombre}} | {{ block.super }}
+{% endblock %}
+{% load static %}
+
+{% block content %}
+<div id="inicio">
+      <h2>Transacciones de {{monedero.nombre}} </h2>
+      <h4>Dinero registrado: ${{monedero.obtener_dinero_caja}}</h4>
+      <hr>
+      <div id="transacciones">
+            <img src="{% static 'img/mas.svg' %}" style="width: 20px;  vertical-align: top;">
+            <a href="{% url 'monedero_transaccion' monedero.id %}">Transacción independiente</a>
+
+      </div>
+      <table id="tabla_datos" class="row-border stripe">
+            <thead class="">
+            <tr>
+                  <th>Motivo</th>
+                  <th>Fecha</th>
+                  <th>Hora</th>
+                  <th>Tipo</th>
+                  <th>Dinero</th>
+                  <th></th>
+            </tr>
+            </thead>
+            {% for x in monedero.transacciones.all %}
+            <tr>
+                  <td>
+                        <b>
+                              {% if x.telefono %}
+                                    {{x.telefono.modelo}}
+                                    {{x.telefono.capacidad}} -
+                                    {{x.telefono.imei}}
+                              {% else %}
+                                    {% if x.dispositivo %}
+                                          {{x.dispositivo.modelo}}
+                                          {{x.dispositivo.capacidad}} -
+                                          {{x.dispositivo.imei}} -
+                                          {{x.dispositivo.serial}}
+                                    {% else %}
+                                          {% if x.accesorio %}
+                                                {{x.accesorio}}
+                                          {% else %}
+                                                {{x.motivo}}
+                                          {% endif %} 
+                                    {% endif %}  
+                              {% endif %}
+                        </b>                     
+                  </td>
+                  <td>{{x.fecha|date:'Y-m-d'}}</td>
+                  <td>{{x.hora}}</td>
+                  <td>{{x.tipo}}</td>
+                  <td>{{x.dinero}}</td>
+                  
+                  <td>
+                        <a class="eliminar" target={{x.id}}> <img src="{% static 'img/eliminar.svg' %}" style="width: 20px; cursor: pointer;"> </a>
+                        <div class="cuadro-eliminar" id="fondo-eliminar{{x.id}}" target={{x.id}} style="display: none;">
+                              <a id="cancelar"><img src="{% static 'img/cancelar.svg' %}"></a> <br> 
+                              <p style="text-align: center; font-weight: bold;">¿Deseas eliminar esta transacción?</p> 
+                              <div class="detalle-central">
+                                          <p>{% if x.telefono %}
+                                                      {{x.telefono.modelo}}
+                                                      {{x.telefono.capacidad}} <br>
+                                                      {{x.telefono.imei}}
+                                                {% else %}
+                                                      {% if x.dispositivo %}
+                                                            {{x.dispositivo.modelo}}
+                                                            {{x.dispositivo.capacidad}} <br>
+                                                            {{x.dispositivo.imei}} <br>
+                                                            {{x.dispositivo.serial}}
+                                                      {% else %}
+                                                            {% if x.accesorio %}
+                                                                  {{x.accesorio}}
+                                                            {% else %}
+                                                                  {{x.motivo}}
+                                                            {% endif %} 
+                                                      {% endif %}  
+                                                {% endif %}         
+                                                <br> <br>                                   
+                                                {{x.fecha}} a las {{x.hora}} <br>
+                                                Valor ${{x.dinero}}
+                                          </p>
+                                          <div class="detalle-central" style="margin-top: 4%;">
+                                                <a href="{% url 'eliminar_transaccion' x.id monedero.id %}" id="bttn-eliminar">Confirmar</a>
+                                        </div>
+                              </div> 
+                        </div>
+                  </td>
+            </tr>
+            {% endfor %}
+      </table>
+      <script type="text/javascript">
+            $(document).ready( function () {
+                  if (screen.width < 450) {
+                        $('#tabla_datos').DataTable({
+                              "language": {
+                                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                              },
+                              "order": [[ 1, "desc" ], [ 2, "desc" ], ],
+                              "columnDefs": [
+                                    { "orderable": false, "targets": 0 },
+                                    { "orderable": false, "targets": 5 },
+                                    {  "targets": [ 3 ], "visible": false },
+                                    {  "targets": [3,4,5 ], "searchable": false },
+                              ],
+                              "orderMulti": true,
+                              "lengthMenu": [[31,-1,], [31 ,"Todos"]],
+                              
+                              "scrollY":  "65vh",
+                        });
+                  } else {
+                        $('#tabla_datos').DataTable({
+                              "language": {
+                                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                              },
+                              "order": [[ 1, "desc" ], [ 2, "desc" ], ],
+                              "columnDefs": [
+                                    { "orderable": false, "targets": 0 },
+                                    { "orderable": false, "targets": 5 },
+                                    {  "targets": [3,4,5 ], "searchable": false },
+                              ],
+                              "orderMulti": true,
+                              "lengthMenu": [[31,-1,], [31 ,"Todos"]],
+
+                              "scrollY":  "65vh",
+                        });     
+                  }
+            });
+      </script>
+</div>
+{% endblock %}

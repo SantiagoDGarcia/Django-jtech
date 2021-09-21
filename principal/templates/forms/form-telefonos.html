@@ -1,0 +1,147 @@
+{% extends "main.html" %}
+
+{% block title %}
+      {{titulo}}
+{% endblock %}
+{% block content %}
+<div id="inicio">
+      <h2>{{titulo}}</h2>
+      <form action="" method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="formLocation">
+                  <div class="contenidoForm">
+                        {{ form.fecha_compra.errors }}
+                        <label for="{{ form.fecha_compra.id_for_label }}">Fecha de compra</label>
+                        {{ form.fecha_compra }}
+                  </div>
+                  <div class="contenidoForm">
+                        {{ form.proveedor.errors }}
+                        <label for="{{ form.proveedor.id_for_label }}">Proveedor</label>
+                        {{ form.proveedor }}
+                  </div>
+                  <div class="contenidoForm">
+                        {{ form.modelo.errors }}
+                        <label for="{{ form.modelo.id_for_label }}">Modelo</label>
+                        {{ form.modelo }}
+                  </div>
+                  <div class="contenidoForm">
+                        {{ form.capacidad.errors }}
+                        <label for="{{ form.capacidad.id_for_label }}">Capacidad</label>
+                        {{ form.capacidad }}
+                  </div>
+                  <div class="contenidoForm">
+                        {{ form.color.errors }}
+                        <label for="{{ form.color.id_for_label }}">Color</label>
+                        {{ form.color }}
+                  </div>
+                  <div class="contenidoForm">
+                        {{ form.modalidad.errors }}
+                        <label for="{{ form.modalidad.id_for_label }}">Modalidad</label>
+                        {{ form.modalidad }}
+                  </div>
+                  <div class="contenidoForm">
+                        {{ form.bateria.errors }}
+                        <label for="{{ form.bateria.id_for_label }}">Condición batería</label>
+                        {{ form.bateria }}
+                  </div>
+                  <div class="contenidoForm">
+                        {{ form.monto_compra.errors }}
+                        <label for="{{ form.monto_compra.id_for_label }}">Monto de compra</label>
+                        {{ form.monto_compra }}
+                  </div>
+                  <div class="contenidoForm">
+                        {{ form.imei.errors }}
+                        <label for="{{ form.imei.id_for_label }}">IMEI</label>
+                        {{ form.imei }}
+                  </div>
+                  <div class="contenidoForm">
+                        {{ form.imei2.errors }}
+                        <label for="{{ form.imei2.id_for_label }}">IMEI2 (MEID)</label>
+                        {{ form.imei2 }}
+                  </div>
+                  <div class="contenidoForm">
+                        {{ form.llego_cargador.errors }}
+                        <label for="{{ form.llego_cargador.id_for_label }}"> Cargador normal</label>
+                        {{ form.llego_cargador }}
+                  </div>
+                  <div class="contenidoForm">
+                        {{ form.llego_cargador_rapido.errors }}
+                        <label for="{{ form.llego_cargador_rapido.id_for_label }}"> Cargador rápido</label>
+                        {{ form.llego_cargador_rapido }}
+                  </div>
+                  <div class="contenidoForm">
+                        {{ form.llego_audifonos.errors }}
+                        <label for="{{ form.llego_audifonos.id_for_label }}">Audífonos </label>
+                        {{ form.llego_audifonos }}
+                  </div>
+            </div>
+            <div class="formLocation f2">
+                  <div class="">
+                        <label for="{{ form.vendido.id_for_label }}">Vendido</label>
+                        {{ form.vendido }}
+                  </div>
+                  <div class="form2" disabled>
+                        <div class="contenidoForm">
+                              {{ form.fecha_venta.errors }}
+                              <label for="{{ form.fecha_venta.id_for_label }}">Fecha de venta</label>
+                              {{ form.fecha_venta }}
+                        </div>
+                        <div class="contenidoForm">
+                              {{ form.cliente.errors }}
+                              <label for="{{ form.cliente.id_for_label }}">Cliente</label>
+                              {{ form.cliente }}
+                        </div>
+                        <div class="contenidoForm">
+                              {{ form.nro_cliente.errors }}
+                              <label for="{{ form.nro_cliente.id_for_label }}">Número teléfono</label>
+                              {{ form.nro_cliente }}
+                        </div>
+                        <div class="contenidoForm">
+                              {{ form.monto_venta.errors }}
+                              <label for="{{ form.monto_venta.id_for_label }}">Precio de venta</label>
+                              {{ form.monto_venta }}
+                        </div>
+                        <div class="contenidoForm">
+                              {{ form.entrega.errors }}
+                              <label for="{{ form.entrega.id_for_label }}">Tipo de venta</label>
+                              {{ form.entrega }}
+                        </div>
+                        <div class="contenidoForm">
+                              {{ form.sefue_cargador.errors }}
+                              <label for="{{ form.sefue_cargador.id_for_label }}"> Cargador normal</label>
+                              {{ form.sefue_cargador }}
+                        </div>
+                        <div class="contenidoForm">
+                              {{ form.precio_cargador.errors }}
+                              <label for="{{ form.precio_cargador.id_for_label }}"> Precio</label>
+                              {{ form.precio_cargador }}
+                        </div>
+                        <div class="contenidoForm">
+                              {{ form.sefue_cargador_rapido.errors }}
+                              <label for="{{ form.sefue_cargador_rapido.id_for_label }}"> Cargador rápido</label>
+                              {{ form.sefue_cargador_rapido }}
+                        </div>
+                        <div class="contenidoForm">
+                              {{ form.precio_cargador_rapido.errors }}
+                              <label for="{{ form.precio_cargador_rapido.id_for_label }}"> Precio</label>
+                              {{ form.precio_cargador_rapido }}
+                        </div>
+                        <div class="contenidoForm">
+                              {{ form.sefue_audifonos.errors }}
+                              <label for="{{ form.sefue_audifonos.id_for_label }}">Audífonos</label>
+                              {{ form.sefue_audifonos }}
+                        </div>
+                        <div class="contenidoForm">
+                              {{ form.precio_audifonos.errors }}
+                              <label for="{{ form.precio_audifonos.id_for_label }}">Precio </label>
+                              {{ form.precio_audifonos }}
+                        </div>
+                  </div>
+            </div>
+            <div style="width: 100%; text-align: center;">
+                  <button type='submit'>Confirmar</button>
+            </div>
+      </form>
+</div>
+{% endblock %}
